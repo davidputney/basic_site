@@ -1,4 +1,22 @@
 
+// added from styleplate
+var /*gulp        = require('gulp'), */
+    // sass        = require('gulp-sass'),
+    autoprefix  = require('gulp-autoprefixer'),
+    browserSync = require('browser-sync'),
+    reload      = browserSync.reload,
+    exec        = require('child_process').exec,
+    kss         = require('kss');
+
+
+
+    var rootPath    = 'test/';
+    var sassSource  = 'source/sass/**/*.scss'; // 'sass/**/*.scss';
+    var sassPath    = 'sass/**/*';
+    var kssNode     = 'node ' + __dirname + '/node_modules/kss/bin/kss-node ';
+
+
+
 var gulp = require('gulp'),
     browserify = require('browserify'),
     source = require('vinyl-source-stream');
@@ -52,6 +70,19 @@ var htmltidy = require('gulp-htmltidy'),
 
 // web server
 var webserver = require('gulp-webserver');
+
+// style guide
+var exec = require('child_process').exec,
+    kss = require('kss');
+
+
+    //** Path Variables for kss **//
+var rootPath    = 'test/';
+var sassSource  = 'source/sass/**/*.scss'; // 'sass/**/*.scss';
+var sassPath    = 'sass/**/*';
+var kssNode     = 'node ' + __dirname + '/node_modules/kss/bin/kss-node ';
+
+
 
 var paths = {
   pageTemplates : {
@@ -232,6 +263,29 @@ gulp.task('siteart', function() {
       .pipe(gulp.dest(paths.siteart.test))
       .pipe(gulp.dest(paths.siteart.dist));
 });
+
+//Generate styleguide
+gulp.task('styleguide:generate', function(cb) {
+  // this string passes the url for inclusion in the styleguide html
+
+  // file path = source folder for sass + destination for styleguide + --css + file path for compiled css
+  var cmd = exec(kssNode + 'source/sass test/styleguide --css ../css/main_styles.css', function(err, stdout, stderr) {
+    reload();
+  });
+  return cmd.on('close', cb);
+});
+
+//Task That Runs the Processes Listed Above
+gulp.task('styleguideBuild', ['css', 'styleguide:generate']);
+
+//Run the devBuild task and then fire up a local server
+// gulp.task('styleguide', ['styleguideBuild', 'webserver'], function() {
+//   gulp.watch(sassPath, ['styleguide:generate']);
+//   gulp.watch(sassSource, ['css']);
+// });
+
+
+
 // webserver with live reload
 gulp.task('webserver', function() {
   gulp.src('test')
@@ -334,6 +388,7 @@ gulp.task('default', [
   'concat',
   'markdown',
   'exclude',
+  'styleguideBuild',
   'listen',
   'webserver'
 ]);
