@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "gulp": "^3.9.0",
-    "gulp-autoprefixer": "^2.3.1",
+    "gulp-autoprefixer": "^3.1.0",
     "gulp-base64": "^0.1.2",
     "gulp-clean-css": "^2.0.12",
     "gulp-concat": "^2.4.1",
@@ -31,6 +31,7 @@
     "imagemin": "^3.1.0",
     "imagemin-jpegtran": "^4.2.0",
     "jshint-stylish": "^2.0.1",
+    "kss": "^3.0.0-beta.16",
     "main-bower-files": "^2.8.2",
     "uglify": "^0.1.5"
   },
@@ -40,10 +41,13 @@
     "jquery": "^2.1.4",
     "lodash": "^3.10.0",
     "pos": "^0.2.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "browser-sync": "^2.10.1",
+    "kss": "^2.3.1",
+    "normalize.css": "^3.0.3"
   },
   "scripts": {
-  "start": "gulp",
-  "postinstall": "bower install && gulp prebuild"
-}
+    "start": "gulp",
+    "postinstall": "bower install && gulp prebuild"
+  }
 }
